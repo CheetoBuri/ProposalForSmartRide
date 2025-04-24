@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Customer
+actor Driver
+actor Admin
+
+rectangle "SmartRide ORSP" {
+  
+  Customer --> (Register/Login)
+  Customer --> (Book Ride)
+  Customer --> (Track Driver)
+  Customer --> (Make Payment)
+  Customer --> (View Ride History)
+
+  Driver --> (Register/Login)
+  Driver --> (Accept Ride)
+  Driver --> (Update Ride Status)
+  Driver --> (View Assigned Rides)
+
+  Admin --> (View Reports)
+  Admin --> (Manage Users)
+  Admin --> (Monitor Rides)
+}
+
+@enduml
