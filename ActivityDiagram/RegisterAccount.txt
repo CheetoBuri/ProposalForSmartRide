@@ -1,0 +1,16 @@
+@startuml
+|Customer|
+start
+:Choose to register;
+:Enter name, phone, email, password;
+|System|
+:Display registration form;
+:Validate customer data;
+if (Data valid?) then (Yes)
+  :Create account in database;
+  :Show confirmation;
+else (No)
+  :Show error message;
+endif
+stop
+@enduml

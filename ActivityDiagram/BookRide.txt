@@ -1,0 +1,21 @@
+@startuml
+|Customer|
+start
+:Open booking screen;
+:Enter pickup and drop-off locations;
+:Confirm booking;
+|System|
+:Validate locations;
+if (Locations valid?) then (Yes)
+  :Check for available drivers;
+  if (Driver available?) then (Yes)
+    :Assign driver;
+    :Send confirmation to customer;
+  else (No)
+    :Notify customer no drivers are available;
+  endif
+else (No)
+  :Notify customer of invalid location;
+endif
+stop
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+|Customer|
+start
+:Open driver tracking screen;
+|System|
+:Fetch driver location via GPS;
+repeat
+  :Update map with current driver location;
+repeat while (Ride is ongoing?)
+:Notify arrival or completion;
+stop
+@enduml
