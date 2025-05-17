@@ -1,0 +1,22 @@
+@startuml
+actor Customer
+participant "Payment UI" as UI
+participant "Payment Controller" as Controller
+participant "Payment Service" as Service
+participant "Payment Gateway API" as Gateway
+participant "Database" as DB
+
+Customer -> UI: Open payment screen
+UI -> Customer: Display fare and payment options
+
+Customer -> UI: Select payment method\nEnter details and confirm
+UI -> Controller: Submit payment info
+Controller -> Service: Validate and process payment
+Service -> Gateway: Process transaction
+Gateway --> Service: Payment success
+Service -> DB: Save payment record
+DB --> Service: Record saved
+Service -> Controller: Payment successful
+Controller -> UI: Show confirmation and receipt
+UI -> Customer: Display payment success
+@enduml
