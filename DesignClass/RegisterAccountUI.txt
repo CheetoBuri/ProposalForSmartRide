@@ -1,19 +1,21 @@
 @startuml
-left to right direction
-
-class CustomerHandler {
-    +createCustomer()
-    --
-    Customer
+class CustomerScreen {
+    +accept customer info
+}
+class AddressScreen {
+    +accept address info
+}
+class CreditcardScreen {
+    +accept CC info
 }
 
-class Customer {
-    --
-    name
-    email
-    phone
-    password
-}
+class CustomerHandler
 
-CustomerHandler --> Customer : creates
+Customer --> CustomerScreen
+Customer --> AddressScreen
+Customer --> CreditcardScreen
+
+CustomerScreen --> CustomerHandler
+AddressScreen --> CustomerHandler
+CreditcardScreen --> CustomerHandler
 @enduml

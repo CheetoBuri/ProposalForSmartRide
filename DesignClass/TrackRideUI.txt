@@ -1,0 +1,17 @@
+@startuml
+
+class RideStatusScreen {
+    +display ride location/status
+}
+class NotificationScreen {
+    +show ETA / updates
+}
+class RideTrackerHandler
+
+Customer --> RideStatusScreen
+Customer --> NotificationScreen
+
+RideStatusScreen --> RideTrackerHandler
+NotificationScreen --> RideTrackerHandler
+
+@enduml

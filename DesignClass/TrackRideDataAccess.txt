@@ -1,0 +1,19 @@
+@startuml
+class Ride {
+    +status
+    +location
+}
+class Driver {
+    +currentLocation()
+}
+
+class RideDB {
+    +fetchRideStatus()
+}
+class DriverDB {
+    +fetchDriverLocation()
+}
+
+Ride --> RideDB : <<uses>>
+Driver --> DriverDB : <<uses>>
+@enduml
