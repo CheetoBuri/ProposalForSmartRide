@@ -1,0 +1,37 @@
+@startuml
+title Design Class Diagram - Process Payment
+
+class "PaymentHandler" <<controller>> {
+  +initiatePayment(rideId, amount, method): Payment
+  +verifyPayment(paymentId): boolean
+}
+
+class "Ride" {
+  -rideId: string {key}
+  -fare: decimal
+  -status: string
+  +getFare(): decimal
+  +updateStatus(status): void
+}
+
+class "Payment" {
+  -paymentId: string {key}
+  -rideId: string
+  -amount: decimal
+  -paymentMethod: string
+  -paymentStatus: string
+  +makePayment(rideId, amount, method): Payment
+  +verify(): boolean
+}
+
+class "PaymentGateway" {
+  -gatewayName: string
+  +processPayment(amount, method): boolean
+}
+
+"PaymentHandler" --> "Ride" : getFare()
+"PaymentHandler" --> "Payment" : initiatePayment()
+"Payment" --> "PaymentGateway" : processPayment()
+"PaymentHandler" --> "Payment" : verifyPayment()
+
+@enduml

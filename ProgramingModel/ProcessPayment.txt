@@ -1,0 +1,41 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "UI Layer" {
+  class PaymentView {
+    +showPaymentForm()
+    +submitPayment()
+  }
+}
+
+package "Controller Layer" {
+  class PaymentController {
+    +handlePaymentRequest(data)
+  }
+}
+
+package "Service Layer" {
+  class PaymentService {
+    +processPayment(paymentData)
+    +validatePaymentInfo()
+  }
+}
+
+package "Data Access Layer" {
+  class PaymentRepository {
+    +save(payment)
+  }
+
+  class RideRepository {
+    +updateRideStatus(rideId, status)
+  }
+}
+
+PaymentView --> PaymentController : submitPayment()
+PaymentController --> PaymentService : processPayment(paymentData)
+PaymentService --> PaymentRepository : save(payment)
+PaymentService --> RideRepository : updateRideStatus(rideId, status)
+
+@enduml

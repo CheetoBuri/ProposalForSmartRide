@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+
+package "Track Driver Subsystem" {
+
+  package "Presentation Layer" {
+    [TrackingController]
+  }
+
+  package "Domain Layer" {
+    [TrackingService]
+    [Ride]
+    [Driver]
+    [Customer]
+    [Location]
+  }
+
+  package "Data Access Layer" {
+    [RealTimeLocationRepository]
+    [RideRepository]
+  }
+
+  package "External Interfaces" {
+    [GPSService]
+    [NotificationService]
+  }
+}
+
+' Dependencies
+TrackingController --> TrackingService             : invokes
+TrackingService --> RideRepository                 : retrieves Ride
+TrackingService --> RealTimeLocationRepository     : fetches latest Location
+TrackingService --> GPSService                     : obtains coordinates
+TrackingService --> NotificationService            : pushes updates
+RealTimeLocationRepository --> Location            : stores/retrieves
+RideRepository --> Ride                            : stores/retrieves
+@enduml

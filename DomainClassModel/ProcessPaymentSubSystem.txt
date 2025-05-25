@@ -1,0 +1,63 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+
+package "Process Payment Subsystem" {
+  
+  class PaymentService {
+    +processPayment(request: PaymentRequest): PaymentConfirmation
+  }
+  
+  class PaymentRequest {
+    +rideId: UUID
+    +customerId: UUID
+    +amount: Money
+    +method: PaymentMethod
+  }
+  
+  class PaymentConfirmation {
+    +paymentId: UUID
+    +status: PaymentStatus
+    +timestamp: DateTime
+  }
+  
+  class Customer {
+    +customerId: UUID
+    +name: String
+    +defaultPaymentMethod: PaymentMethod
+  }
+  
+  class Transaction {
+    +transactionId: UUID
+    +paymentId: UUID
+    +amount: Money
+    +timestamp: DateTime
+    +status: TransactionStatus
+  }
+  
+  class PaymentGateway <<interface>> {
+    +authorize(request: PaymentRequest): AuthorizationResult
+    +capture(paymentId: UUID): CaptureResult
+  }
+  
+  class TransactionRepository <<interface>> {
+    +save(transaction: Transaction): void
+    +findByPaymentId(paymentId: UUID): Transaction?
+  }
+  
+  class NotificationService <<interface>> {
+    +sendReceipt(customer: Customer, confirmation: PaymentConfirmation): void
+  }
+  
+  PaymentService ..> PaymentRequest
+  PaymentService ..> PaymentGateway
+  PaymentService ..> TransactionRepository
+  PaymentService ..> NotificationService
+  
+  PaymentService --> PaymentConfirmation : returns >
+  PaymentConfirmation --> Transaction : creates >
+  TransactionRepository --> Transaction : persists >
+  NotificationService --> Customer : notifies >
+}
+
+@enduml

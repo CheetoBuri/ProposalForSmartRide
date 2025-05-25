@@ -1,0 +1,38 @@
+@startuml
+title Design Class Diagram - Track Driver
+
+class "RideTracker" <<controller>> {
+  +getRideLocation(rideId): Location
+  +getRideStatus(rideId): string
+}
+
+class "Ride" {
+  -rideId: string {key}
+  -driverId: string
+  -customerId: string
+  -status: string
+  +getStatus(): string
+  +getLocation(): Location
+}
+
+class "Location" {
+  -latitude: double
+  -longitude: double
+  -timestamp: DateTime
+  +updateLocation(lat, long): void
+  +getCurrentLocation(): Location
+}
+
+class "Driver" {
+  -driverId: string {key}
+  -name: string
+  -vehicleInfo: string
+  +getCurrentLocation(): Location
+}
+
+"RideTracker" --> "Ride" : getStatus()
+"RideTracker" --> "Ride" : getLocation()
+"Ride" --> "Location" : getCurrentLocation()
+"Ride" --> "Driver" : getCurrentLocation()
+
+@enduml

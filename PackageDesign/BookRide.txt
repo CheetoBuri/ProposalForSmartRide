@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+
+package "Book Ride Subsystem" {
+
+  package "Presentation Layer" {
+    [RideBookingController]
+  }
+
+  package "Domain Layer" {
+    [RideBookingService]
+    [RideRequest]
+    [RideConfirmation]
+    [Customer]
+    [Driver]
+    [Location]
+  }
+
+  package "Data Access Layer" {
+    [RideRepository]
+    [DriverRepository]
+    [LocationRepository]
+  }
+
+  package "External Interfaces" {
+    [DriverMatchingEngine]
+    [ETAEstimator]
+    [NotificationService]
+    [GPSService]
+  }
+}
+
+' Dependencies
+RideBookingController --> RideBookingService : invokes
+RideBookingService --> RideRequest           : consumes
+RideBookingService --> RideRepository        : persists Ride
+RideBookingService --> DriverRepository      : queries Driver
+RideBookingService --> LocationRepository    : queries Location
+RideBookingService --> DriverMatchingEngine  : matches driver
+RideBookingService --> ETAEstimator          : estimates ETA/fare
+RideBookingService --> GPSService            : fetches routing data
+RideBookingService --> NotificationService   : sends confirmations

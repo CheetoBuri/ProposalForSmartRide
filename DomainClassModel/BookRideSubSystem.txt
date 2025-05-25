@@ -1,0 +1,72 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+
+package "Book Ride Subsystem" {
+  
+  class RideBookingService {
+    +bookRide(request: RideRequest): RideConfirmation
+  }
+  
+  class RideRequest {
+    +customerId: UUID
+    +pickupLocation: Location
+    +dropoffLocation: Location
+  }
+  
+  class RideConfirmation {
+    +rideId: UUID
+    +driverId: UUID
+    +eta: Duration
+    +fare: Money
+    +status: RideStatus
+  }
+  
+  class Customer {
+    +customerId: UUID
+    +name: String
+    +paymentMethods: List<PaymentMethod>
+  }
+  
+  class Driver {
+    +driverId: UUID
+    +name: String
+    +currentLocation: Location
+    +status: DriverStatus
+  }
+  
+  class Location {
+    +locationId: UUID
+    +latitude: Double
+    +longitude: Double
+    +address: String
+  }
+  
+  class DriverMatchingEngine <<interface>> {
+    +findNearestDriver(request: RideRequest): Driver
+  }
+  
+  class ETAEstimator <<interface>> {
+    +estimate(request: RideRequest, driver: Driver): Duration
+    +calculateFare(request: RideRequest): Money
+  }
+  
+  class NotificationService <<interface>> {
+    +notifyDriver(driver: Driver, confirmation: RideConfirmation): void
+    +notifyCustomer(customer: Customer, confirmation: RideConfirmation): void
+  }
+  
+  RideBookingService ..> RideRequest
+  RideBookingService ..> DriverMatchingEngine
+  RideBookingService ..> ETAEstimator
+  RideBookingService ..> NotificationService
+  
+  RideRequest "1" -- "1" Location : pickup >
+  RideRequest "1" -- "1" Location : dropoff >
+  
+  RideBookingService --> RideConfirmation : returns >
+  RideConfirmation --> Driver : assignedTo >
+  RideConfirmation --> Customer : forCustomer >
+}
+
+@enduml

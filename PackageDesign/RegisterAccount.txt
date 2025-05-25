@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+
+package "Register Account Subsystem" {
+
+  package "Presentation Layer" {
+    [RegistrationController]
+  }
+
+  package "Domain Layer" {
+    [RegistrationService]
+    [RegistrationRequest]
+    [Customer]
+    [Address]
+  }
+
+  package "Data Access Layer" {
+    [UserRepository]
+    [AddressRepository]
+  }
+
+  package "External Interfaces" {
+    [IdentityVerificationService]
+    [NotificationService]
+  }
+}
+
+' Dependencies
+RegistrationController --> RegistrationService : invokes
+RegistrationService --> RegistrationRequest : consumes
+RegistrationService --> UserRepository   : persists Customer
+RegistrationService --> AddressRepository: persists Address
+RegistrationService --> IdentityVerificationService : verifies identity
+RegistrationService --> NotificationService : sends confirmation

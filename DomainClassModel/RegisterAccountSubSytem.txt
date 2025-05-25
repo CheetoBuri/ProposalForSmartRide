@@ -1,0 +1,58 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+
+package "Register Account Subsystem" {
+  
+  class RegistrationService {
+    +register(request: RegistrationRequest): Customer
+  }
+  
+  class RegistrationRequest {
+    +name: String
+    +email: String
+    +phone: String
+    +password: String
+    +addresses: List<Address>
+  }
+  
+  class Customer {
+    +customerId: UUID
+    +name: String
+    +email: String
+    +phone: String
+    +passwordHash: String
+    +status: AccountStatus
+  }
+  
+  class Address {
+    +addressId: UUID
+    +street: String
+    +city: String
+    +postalCode: String
+  }
+  
+  class UserRepository <<interface>> {
+    +save(customer: Customer): void
+    +findByEmail(email: String): Customer?
+  }
+  
+  class IdentityVerificationService <<interface>> {
+    +verifyIdentity(data: RegistrationRequest): VerificationResult
+  }
+  
+  class NotificationService <<interface>> {
+    +sendWelcomeEmail(customer: Customer): void
+  }
+
+  RegistrationService ..> RegistrationRequest
+  RegistrationService ..> IdentityVerificationService
+  RegistrationService ..> UserRepository
+  RegistrationService ..> NotificationService
+  
+  RegistrationRequest "1" -- "0..*" Address : includes >
+  RegistrationService --> Customer : creates >
+  Customer --> Address : owns >
+}
+
+@enduml

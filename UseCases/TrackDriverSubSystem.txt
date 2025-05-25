@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+actor Customer
+actor Driver
+
+package "SmartRide Platform" {
+    component [Tracking Service]
+    component [GPS / Map Service]
+    component [Notification Service]
+    component [User Management Service]
+
+    [Tracking Service] --> [GPS / Map Service]
+    [Tracking Service] --> [Notification Service]
+    [Tracking Service] --> [User Management Service]
+
+    [GPS / Map Service] --> "Real-Time Location DB"
+    [User Management Service] --> "Database"
+}
+
+Driver --> [GPS / Map Service] : Update Location
+Customer --> [Tracking Service] : Request Live Location
+[Tracking Service] --> [GPS / Map Service] : Fetch Coordinates
+[Tracking Service] --> Customer : Push Location Updates
+@enduml

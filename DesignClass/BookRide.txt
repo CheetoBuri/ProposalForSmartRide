@@ -1,0 +1,37 @@
+@startuml
+title Design Class Diagram - Book Ride
+
+class "RideHandler" <<controller>> {
+  +bookRide(custId, pickup, dest): Ride
+  +assignDriver(rideId): Driver
+}
+
+class "Customer" {
+  -custId: string {key}
+  -name: string
+  -phoneNumber: string
+  +requestRide(pickup, dest): Ride
+}
+
+class "Ride" {
+  -rideId: string {key}
+  -pickupLocation: string
+  -destination: string
+  -status: string
+  +createRide(custId, pickup, dest): Ride
+  +updateStatus(status): void
+}
+
+class "Driver" {
+  -driverId: string {key}
+  -name: string
+  -vehicleInfo: string
+  -availability: boolean
+  +acceptRide(rideId): void
+  +updateAvailability(avail: boolean): void
+}
+
+"RideHandler" --> "Ride" : createRide()
+"RideHandler" --> "Driver" : assignDriver()
+"Customer" --> "RideHandler" : bookRide()
+@enduml

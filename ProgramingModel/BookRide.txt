@@ -1,0 +1,41 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "UI Layer" {
+  class BookingView {
+    +showBookingForm()
+    +submitBooking()
+  }
+}
+
+package "Controller Layer" {
+  class BookingController {
+    +handleBookingRequest(data)
+  }
+}
+
+package "Service Layer" {
+  class RideService {
+    +bookRide(bookingData)
+    +findAvailableDriver(location)
+  }
+}
+
+package "Data Access Layer" {
+  class RideRepository {
+    +save(ride)
+  }
+
+  class DriverRepository {
+    +getAvailableDrivers(location)
+  }
+}
+
+BookingView --> BookingController : submitBooking()
+BookingController --> RideService : bookRide(bookingData)
+RideService --> DriverRepository : getAvailableDrivers(location)
+RideService --> RideRepository : save(ride)
+
+@enduml

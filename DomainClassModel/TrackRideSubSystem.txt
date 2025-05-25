@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+
+package "Track Driver Subsystem" {
+  
+  class TrackingService {
+    +getLiveLocation(rideId: UUID): Location
+    +subscribeUpdates(rideId: UUID, customerId: UUID): Subscription
+  }
+  
+  class Ride {
+    +rideId: UUID
+    +status: RideStatus
+  }
+  
+  class Driver {
+    +driverId: UUID
+    +name: String
+    +currentLocation: Location
+  }
+  
+  class Customer {
+    +customerId: UUID
+    +name: String
+  }
+  
+  class Location {
+    +locationId: UUID
+    +latitude: Double
+    +longitude: Double
+    +timestamp: DateTime
+  }
+  
+  class RealTimeLocationRepository <<interface>> {
+    +saveLocation(driverId: UUID, location: Location): void
+    +fetchLatest(driverId: UUID): Location
+  }
+  
+  class NotificationService <<interface>> {
+    +pushLocationUpdate(customer: Customer, location: Location): void
+  }
+  
+  TrackingService ..> Ride
+  TrackingService ..> RealTimeLocationRepository
+  TrackingService ..> NotificationService
+  
+  Ride "1" -- "1" Driver : assignedTo >
+  TrackingService --> Location : retrieves >
+  NotificationService --> Customer : notifies >
+}
+
+@enduml

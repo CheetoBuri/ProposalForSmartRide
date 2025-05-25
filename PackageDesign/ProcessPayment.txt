@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+
+package "Process Payment Subsystem" {
+
+  package "Presentation Layer" {
+    [PaymentController]
+  }
+
+  package "Domain Layer" {
+    [PaymentService]
+    [PaymentRequest]
+    [PaymentConfirmation]
+    [Transaction]
+    [Customer]
+  }
+
+  package "Data Access Layer" {
+    [TransactionRepository]
+    [PaymentRepository]
+  }
+
+  package "External Interfaces" {
+    [PaymentGateway]
+    [NotificationService]
+  }
+}
+
+' Dependencies
+PaymentController --> PaymentService          : invokes
+PaymentService --> PaymentRequest              : consumes
+PaymentService --> PaymentGateway              : processes transaction
+PaymentService --> TransactionRepository       : persists Transaction
+PaymentService --> PaymentRepository           : updates Payment record
+PaymentService --> NotificationService         : sends receipt

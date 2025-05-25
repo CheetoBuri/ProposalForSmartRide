@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+
+package "UI Layer" {
+  class RegisterView {
+    +showRegistrationForm()
+    +submitForm()
+  }
+}
+
+package "Controller Layer" {
+  class RegisterController {
+    +handleRegisterRequest(data)
+  }
+}
+
+package "Service Layer" {
+  class UserService {
+    +registerUser(userData)
+  }
+}
+
+package "Data Access Layer" {
+  class UserRepository {
+    +save(user)
+    +existsByEmail(email)
+  }
+}
+
+RegisterView --> RegisterController : submitForm()
+RegisterController --> UserService : registerUser(userData)
+UserService --> UserRepository : existsByEmail(email)
+UserService --> UserRepository : save(user)
+@enduml
