@@ -1,21 +1,13 @@
 @startuml
+left to right direction
+
 class CustomerScreen {
     +accept customer info
-}
-class AddressScreen {
-    +accept address info
-}
-class CreditcardScreen {
-    +accept CC info
 }
 
 class CustomerHandler
 
 Customer --> CustomerScreen
-Customer --> AddressScreen
-Customer --> CreditcardScreen
 
 CustomerScreen --> CustomerHandler
-AddressScreen --> CustomerHandler
-CreditcardScreen --> CustomerHandler
 @enduml
