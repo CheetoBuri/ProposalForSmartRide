@@ -3,27 +3,13 @@ left to right direction
 
 actor Customer
 
-package "SmartRide Platform" {
-    component [Registration Service]
-    component [User Management Service]
-    component [Notification Service]
-    component [Identity Verification Service]
-    component [External ID Verify API]
-    component [Database]
-
-    [Registration Service] --> [User Management Service]
-    [Registration Service] --> [Notification Service]
-    [Registration Service] --> [Identity Verification Service]
-    
-    [User Management Service] --> [Database]
-    [Identity Verification Service] --> [External ID Verify API]
+rectangle "Register Account Subsystem" {
+  (Register Account)
+  (Enter Address)
+  (Enter Account)
 }
 
-Customer --> [Registration Service] : Submit Registration Data
-[Registration Service] --> [Identity Verification Service] : Verify Identity
-[Identity Verification Service] --> [External ID Verify API] : Check Credentials
-[External ID Verify API] --> [Identity Verification Service] : Verification Result
-[Registration Service] --> [User Management Service] : Create User Record
-[Registration Service] --> [Notification Service] : Send Welcome / Verification Email
-[Notification Service] --> Customer : Email Confirmation
+Customer --> (Register Account)
+(Register Account) .> (Enter Address) : <<include>>
+(Register Account) .> (Enter Account) : <<include>>
 @enduml

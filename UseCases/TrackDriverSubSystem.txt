@@ -2,24 +2,14 @@
 left to right direction
 
 actor Customer
-actor Driver
 
-package "SmartRide Platform" {
-    component [Tracking Service]
-    component [GPS / Map Service]
-    component [Notification Service]
-    component [User Management Service]
-
-    [Tracking Service] --> [GPS / Map Service]
-    [Tracking Service] --> [Notification Service]
-    [Tracking Service] --> [User Management Service]
-
-    [GPS / Map Service] --> "Real-Time Location DB"
-    [User Management Service] --> "Database"
+rectangle "Track Ride Subsystem" {
+  (Track Ride)
+  (Fetch Driver Location)
+  (Update Location View)
 }
 
-Driver --> [GPS / Map Service] : Update Location
-Customer --> [Tracking Service] : Request Live Location
-[Tracking Service] --> [GPS / Map Service] : Fetch Coordinates
-[Tracking Service] --> Customer : Push Location Updates
+Customer --> (Track Ride)
+(Track Ride) .> (Fetch Driver Location) : <<include>>
+(Track Ride) .> (Update Location View) : <<include>>
 @enduml

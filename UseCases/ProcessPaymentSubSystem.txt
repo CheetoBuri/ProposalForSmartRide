@@ -1,21 +1,15 @@
 @startuml
 left to right direction
 
-package "SmartRide Platform" {
-    [Payment Service] --> [Transaction Logger]
-    [Payment Service] --> [Notification Service]
-    [Payment Service] --> [User Management Service]
-    
-    [Transaction Logger] --> [Database]
-    [User Management Service] --> [Database]
+actor Customer
+
+rectangle "Payment Subsystem" {
+  (Make Payment)
+  (Validate Payment)
+  (Generate Receipt)
 }
 
-actor Customer
-actor "Payment Gateway" as PG
-
-Customer --> [Payment Service] : Submit Payment
-[Payment Service] --> PG : Process Transaction
-PG --> [Payment Service] : Transaction Response
-[Payment Service] --> [Transaction Logger] : Log Transaction
-[Payment Service] --> [Notification Service] : Send Receipt
+Customer --> (Make Payment)
+(Make Payment) .> (Validate Payment) : <<include>>
+(Make Payment) .> (Generate Receipt) : <<include>>
 @enduml

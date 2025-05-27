@@ -1,26 +1,15 @@
 @startuml
 left to right direction
 
-package "SmartRide Platform" {
-    
-    [Ride Booking Service] --> [Driver Matching Engine]
-    [Ride Booking Service] --> [ETA & Fare Estimator]
-    [Ride Booking Service] --> [Notification Service]
-    [Ride Booking Service] --> [GPS / Map Service]
-    [Ride Booking Service] --> [User Management]
-    
-    [Driver Matching Engine] --> [User Management]
-    [Driver Matching Engine] --> [GPS / Map Service]
-    
-    [ETA & Fare Estimator] --> [GPS / Map Service]
+actor Customer
+
+rectangle "Book Ride Subsystem" {
+  (Book Ride)
+  (Search Available Driver)
+  (Confirm Booking)
 }
 
-actor Customer
-actor Driver
-
-Customer --> [Ride Booking Service] : Request Ride
-[Notification Service] --> Customer : ETA, Driver Details
-[Notification Service] --> Driver : New Ride Request
-Driver --> [Ride Booking Service] : Accept Ride
-
+Customer --> (Book Ride)
+(Book Ride) .> (Search Available Driver) : <<include>>
+(Book Ride) .> (Confirm Booking) : <<include>>
 @enduml
