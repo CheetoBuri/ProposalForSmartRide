@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+
+class CustomerScreen {
+    +accept customer info
+}
+
+class CustomerHandler
+
+Customer --> CustomerScreen
+
+CustomerScreen --> CustomerHandler
+@enduml
