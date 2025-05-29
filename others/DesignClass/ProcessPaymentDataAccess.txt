@@ -1,0 +1,19 @@
+@startuml
+class Payment {
+    +authorize()
+    +capture()
+}
+class Invoice {
+    +generate()
+}
+
+class PaymentDB {
+    +recordTransaction()
+}
+class InvoiceDB {
+    +storeInvoice()
+}
+
+Payment --> PaymentDB : <<uses>>
+Invoice --> InvoiceDB : <<uses>>
+@enduml

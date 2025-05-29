@@ -1,0 +1,17 @@
+@startuml
+
+class PaymentScreen {
+    +enter card/payment details
+}
+class ConfirmationScreen {
+    +display payment success/failure
+}
+class PaymentHandler
+
+Customer --> PaymentScreen
+Customer --> ConfirmationScreen
+
+PaymentScreen --> PaymentHandler
+ConfirmationScreen --> PaymentHandler
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+
+class Ride {
+    +assignDriver()
+}
+class Driver {
+    +setAvailability()
+}
+
+class RideDB {
+    +saveBooking()
+}
+class DriverDB {
+    +updateAvailability()
+}
+
+Ride --> RideDB : <<uses>>
+Driver --> DriverDB : <<uses>>
+
+@enduml

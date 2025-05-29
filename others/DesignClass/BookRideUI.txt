@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+class RideSearchScreen {
+    +enter pickup/drop-off
+}
+class RideConfirmationScreen {
+    +confirm ride
+}
+class RideBookingHandler
+
+Customer --> RideSearchScreen
+Customer --> RideConfirmationScreen
+
+RideSearchScreen --> RideBookingHandler
+RideConfirmationScreen --> RideBookingHandler
+@enduml

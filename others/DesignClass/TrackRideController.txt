@@ -1,0 +1,13 @@
+@startuml
+left to right direction
+
+class RideTrackerHandler {
+    +getCurrentLocation()
+    +getRideStatus()
+}
+class Ride
+class Driver
+
+RideTrackerHandler --> Ride : getRideStatus()
+RideTrackerHandler --> Driver : getCurrentLocation()
+@enduml
